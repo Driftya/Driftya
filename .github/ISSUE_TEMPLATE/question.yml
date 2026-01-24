@@ -1,0 +1,43 @@
+name: I have a question
+description: Ask anything about how Driftya works. There’s no wrong question.
+title: "Question: "
+labels:
+  - question
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ask away.
+        If you’re unsure how to describe it, just write it in your own words.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: What are you wondering about?
+      placeholder: "Example: How does the note choose who receives it next?"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic (optional)
+      options:
+        - Not sure
+        - Notes / drifting / hops
+        - Limits (length, time window, hop count)
+        - Privacy / visibility
+        - Reporting / blocking / safety
+        - Languages
+        - Accounts / login
+        - Other
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Extra context (optional)
+      placeholder: "Anything else that might help me answer?"
+    validations:
+      required: false
