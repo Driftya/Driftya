@@ -1,5 +1,21 @@
-*.png filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
-*.webp filter=lfs diff=lfs merge=lfs -text
+# Video
 *.mp4 filter=lfs diff=lfs merge=lfs -text
-*.psd filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.webm filter=lfs diff=lfs merge=lfs -text
+
+# Images
+*.pdn filter=lfs diff=lfs merge=lfs -text
+
+# Kdenlive + media project formats
+*.kdenlive filter=lfs diff=lfs merge=lfs -text
+*.kdenlivetitle filter=lfs diff=lfs merge=lfs -text
+*.mlt filter=lfs diff=lfs merge=lfs -text
+
+# Audio (often bigger than you think)
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.m4a filter=lfs diff=lfs merge=lfs -text
+
+# Archives
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.7z  filter=lfs diff=lfs merge=lfs -text
