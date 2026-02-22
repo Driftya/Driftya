@@ -1,0 +1,469 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Driftya Bottle Journey</title>
+  <style>
+    :root {
+      --driftya-accent: #4f7cff;
+      --driftya-text: #0f1325;
+      --driftya-bg: #f7f8ff;
+      --stage-gradient: radial-gradient(130% 120% at 20% 0%, rgba(255, 255, 255, 0.95), rgba(219, 227, 255, 0.75), rgba(246, 247, 255, 0.9));
+      --accent-wash: rgba(79, 124, 255, 0.12);
+      --shadow: rgba(15, 19, 37, 0.14);
+      --island-size: clamp(4.4rem, 8.5vw, 7.2rem);
+      --path-height: 78%;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Space Grotesk", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--driftya-text);
+      background: var(--driftya-bg);
+      overflow: hidden;
+    }
+
+    main {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 4vh 4vw;
+      background:
+        radial-gradient(70% 55% at 50% 100%, var(--accent-wash), transparent 72%),
+        var(--stage-gradient);
+    }
+
+    .scene {
+      position: relative;
+      width: min(92vw, 1100px);
+      height: min(72vh, 520px);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .scene::after {
+      content: "";
+      position: absolute;
+      inset: auto 9% 14% 9%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(79, 124, 255, 0.28), transparent);
+      z-index: 2;
+    }
+
+    .center-copy {
+      position: absolute;
+      left: 50%;
+      top: 34%;
+      transform: translate(-50%, -50%);
+      width: min(72%, 720px);
+      text-align: center;
+      font-size: clamp(1.02rem, 2vw, 1.45rem);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: rgba(15, 19, 37, 0.9);
+      opacity: 0;
+      transition: opacity 280ms ease;
+      z-index: 7;
+      pointer-events: none;
+    }
+
+    .end-card {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: clamp(1.2rem, 5.8vh, 3.1rem);
+      text-align: center;
+      background: linear-gradient(180deg, rgba(247, 248, 255, 0.2), rgba(247, 248, 255, 0.8));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 420ms ease;
+      z-index: 8;
+    }
+
+    .end-card-title {
+      margin: 0 0 0.8rem 0;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: rgba(15, 19, 37, 0.95);
+    }
+
+    .logo-frame {
+      width: clamp(3.6rem, 9vw, 5.2rem);
+      aspect-ratio: 1 / 1;
+      border-radius: 1rem;
+      padding: 0.2rem;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 0.4rem 1rem rgba(15, 19, 37, 0.12);
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+    }
+
+    .logo-frame img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: 0.85rem;
+      object-fit: cover;
+    }
+
+    .drift-lane {
+      position: absolute;
+      inset: 0 9% 0 9%;
+      z-index: 4;
+    }
+
+    .node {
+      position: absolute;
+      bottom: 16%;
+      transform: translateX(-50%);
+      z-index: 5;
+      text-align: center;
+    }
+
+    .node-label {
+      margin: 0 0 0.65rem 0;
+      font-size: clamp(0.78rem, 1.25vw, 1rem);
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: rgba(15, 19, 37, 0.58);
+      white-space: nowrap;
+      transition: opacity 320ms ease, color 320ms ease, transform 320ms ease;
+      opacity: 0.72;
+      transform: translateY(0);
+    }
+
+    .node.is-leaving .node-label {
+      color: rgba(15, 19, 37, 0.8);
+      opacity: 0.92;
+      transform: translateY(-1px);
+    }
+
+    .node.is-arriving .node-label {
+      color: rgba(15, 19, 37, 0.92);
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    .node.is-idle .node-label {
+      color: rgba(15, 19, 37, 0.52);
+      opacity: 0.62;
+    }
+
+    .island-svg {
+      width: var(--island-size);
+      aspect-ratio: 1 / 1;
+      opacity: 0.8;
+      display: block;
+    }
+
+    .node-start { left: 2%; }
+
+    .node-middle {
+      left: 50%;
+      opacity: 0.9;
+    }
+
+    .node-end {
+      left: 98%;
+      opacity: 0.9;
+    }
+
+    .bottle-track {
+      position: absolute;
+      --bottle-size: calc(var(--island-size) * 0.58);
+      left: 0%;
+      top: var(--path-height);
+      width: var(--bottle-size);
+      z-index: 5;
+      opacity: 1;
+      will-change: left, opacity;
+    }
+
+    .bottle {
+      width: 100%;
+      display: block;
+      transform-origin: 50% 56%;
+      filter: drop-shadow(0 0.52rem 0.48rem rgba(15, 19, 37, 0.18));
+      animation: bob 7.8s ease-in-out infinite;
+    }
+
+    .bottle path[style*="#4D4D4D"] { fill: rgba(58, 84, 150, 0.9) !important; }
+    .bottle path[style*="#E0974F"],
+    .bottle path[style*="#C6B54F"],
+    .bottle path[style*="#E5D665"] { fill: rgba(79, 124, 255, 0.45) !important; }
+    .bottle path[style*="rgb(79, 124, 255)"] { fill: rgba(79, 124, 255, 0.82) !important; }
+    .bottle path[style*="rgb(94, 230, 255)"] { fill: rgba(79, 124, 255, 0.52) !important; }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0.18rem) rotate(-2.7deg); }
+      50% { transform: translateY(-0.24rem) rotate(1.9deg); }
+    }
+
+    @media (max-width: 760px) {
+      .scene {
+        height: min(66vh, 460px);
+      }
+
+      .center-copy {
+        top: 31%;
+        width: 82%;
+      }
+
+      .end-card {
+        padding-top: clamp(1rem, 4.6vh, 2.1rem);
+      }
+
+      .drift-lane {
+        inset: 0 8% 0 8%;
+      }
+
+      .node {
+        bottom: 14%;
+      }
+
+      .node-label {
+        margin-bottom: 0.45rem;
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 class="sr-only">A drifting message bottle moving between two island markers</h1>
+
+    <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden">
+      <symbol id="message-bottle" viewBox="0 0 448.978 448.978">
+        <g id="XMLID_13_">
+          <g>
+            <path style="fill:#4D4D4D;" d="M441.232,249.095c4.14,0,7.5,3.36,7.5,7.5c0,4.15-3.36,7.5-7.5,7.5c-5.53,0-7.88,1.51-11.42,3.8 c-4.28,2.77-9.6,6.2-19.55,6.2c-9.96,0-15.28-3.43-19.56-6.2c-3.54-2.29-5.88-3.8-11.41-3.8s-7.87,1.51-11.41,3.8 c-4.28,2.77-9.6,6.2-19.55,6.2c-9.96,0-15.28-3.43-19.56-6.2c-3.34-2.16-5.62-3.62-10.51-3.78l-142.63,142.63 c-5.52,5.52-12.78,8.28-20.03,8.28s-14.5-2.76-20.02-8.28l-80.52-80.51c-5.34-5.35-8.29-12.47-8.29-20.03 c0-7.57,2.95-14.68,8.29-20.03l21.05-21.04c-1.72-0.66-3.68-1.04-6.44-1.04c-5.53,0-7.87,1.51-11.41,3.8 c-4.28,2.77-9.6,6.2-19.55,6.2s-15.28-3.43-19.55-6.2c-3.54-2.29-5.88-3.8-11.41-3.8c-4.14,0-7.5-3.35-7.5-7.5 c0-4.14,3.36-7.5,7.5-7.5c9.95,0,15.27,3.44,19.55,6.2c3.54,2.29,5.88,3.8,11.41,3.8s7.87-1.51,11.41-3.8 c4.28-2.76,9.6-6.2,19.55-6.2c8.46,0,13.57,2.49,17.54,4.93l125.13-125.12c14.19-14.19,35.04-19.74,54.41-14.47 c14.19,3.85,29.47-0.21,39.87-10.61l9.31-9.31l-1.87-1.87c-2.93-2.92-2.93-7.67,0-10.6l27.01-27.01c2.92-2.93,7.67-2.93,10.6,0 l5.58,5.58l18.3-23.74c1.32-1.71,3.31-2.77,5.46-2.9c2.15-0.15,4.26,0.65,5.79,2.18l38.85,38.86c1.53,1.52,2.32,3.63,2.19,5.78 c-0.14,2.15-1.2,4.14-2.91,5.46l-23.74,18.3l5.58,5.58c2.93,2.93,2.93,7.68,0,10.61l-27.01,27c-1.46,1.47-3.38,2.2-5.3,2.2 s-3.84-0.73-5.3-2.2l-1.87-1.87l-9.31,9.31c-10.4,10.4-14.46,25.68-10.61,39.87c5.27,19.37-0.28,40.22-14.47,54.41l-2.27,2.27 c2.46,1.1,4.47,2.39,6.28,3.56c3.55,2.29,5.89,3.8,11.42,3.8c5.52,0,7.87-1.51,11.41-3.8c4.27-2.76,9.6-6.2,19.55-6.2 c9.95,0,15.28,3.44,19.55,6.2c3.55,2.29,5.89,3.8,11.42,3.8s7.87-1.51,11.41-3.8C425.952,252.535,431.272,249.095,441.232,249.095 z"/>
+            <polygon style="fill:#E0974F;" points="409.012,79.585 390.502,93.865 367.942,71.315 382.222,52.795"/>
+            <rect x="348.821" y="69.931" transform="matrix(0.7071 -0.7071 0.7071 0.7071 33.87 284.55)" style="fill: rgb(79, 124, 255);" width="23.193" height="62.918"/>
+            <path style="fill: rgb(94, 230, 255);" d="M356.682,135.275l-9.31,9.31c-14.19,14.19-19.74,35.04-14.47,54.41 c3.86,14.19-0.21,29.47-10.61,39.87l-10.66,10.67c-6.42,1-10.45,3.59-13.82,5.76c-3.54,2.29-5.88,3.8-11.41,3.8 s-7.87-1.51-11.42-3.8c-2.94-1.9-6.37-4.12-11.47-5.32l49.02-49.02c0.01-0.01,0.02-0.02,0.03-0.03 c8.2-8.22,12.72-19.14,12.72-30.76c0-4.14-3.36-7.5-7.5-7.5c-2.07,0-3.95,0.84-5.31,2.2c-1.35,1.36-2.19,3.23-2.19,5.3 c0,7.63-2.97,14.79-8.35,20.18c-5.39,5.38-12.55,8.35-20.18,8.35h-0.01c-0.85-0.02-1.67-0.05-2.5-0.14l20.49-20.49 c1.41-1.41,2.2-3.32,2.2-5.31c0-14.3-11.64-25.95-25.95-25.95c-8.15,0-15.82,3.18-21.59,8.94c-0.01,0.01-0.02,0.01-0.02,0.02 l-100.96,100.95c-0.73-0.43-1.47-0.9-2.27-1.42c-4.28-2.76-9.6-6.2-19.55-6.2s-15.27,3.44-19.55,6.2 c-2.85,1.85-4.93,3.18-8.51,3.63l119.41-119.41c7.81-7.81,18.35-12.04,29.13-12.04c3.59,0,7.2,0.47,10.74,1.43 c19.37,5.27,40.22-0.28,54.41-14.47l9.31-9.31L356.682,135.275z"/>
+            <path style="fill: rgb(79, 124, 255);" d="M287.072,274.085l-122.05,122.05c-2.51,2.52-5.86,3.9-9.42,3.9s-6.9-1.38-9.42-3.9l-80.51-80.51 c-2.51-2.52-3.9-5.86-3.9-9.42s1.39-6.9,3.9-9.42l24.3-24.3c2.88,0.96,6.33,1.61,10.66,1.61c9.95,0,15.27-3.43,19.55-6.2 c3.54-2.29,5.88-3.8,11.41-3.8c5.28,0,7.65,1.38,10.94,3.5l-33.33,33.33c-5.77,5.77-8.95,13.45-8.94,21.61 c0,12.19,6.06,23.5,16.22,30.26c5.95,3.97,12.89,6.07,20.06,6.07c0.03,0,0.05,0,0.07,0c11.62,0,22.54-4.53,30.76-12.75 l80.48-80.48c2.01-0.97,4.19-1.54,7.58-1.54c5.53,0,7.87,1.51,11.42,3.8c4.27,2.77,9.59,6.2,19.55,6.2 C286.632,274.095,286.852,274.085,287.072,274.085z"/>
+            <path style="fill:#C6B54F;" d="M286.582,170.005l-21.13,21.12c-3.21-3.8-5.03-8.65-5.03-13.76c0-4.15,1.62-8.06,4.56-11 s6.84-4.56,11-4.56C281.072,161.805,285.352,165.295,286.582,170.005z"/>
+            <path style="fill:#E5D665;" d="M278.712,213.565l-39.93,39.93c-1.03,0.6-1.99,1.22-2.9,1.8c-3.54,2.29-5.88,3.8-11.41,3.8 c-5.52,0-7.86-1.51-11.4-3.8c-4.28-2.76-9.6-6.2-19.55-6.2c-6.46,0-10.96,1.45-14.5,3.22l67.24-67.24 c1.98,9.13,7.41,17.24,15.38,22.55C266.762,211.045,272.612,213.065,278.712,213.565z"/>
+            <path style="fill:#C6B54F;" d="M218.632,273.645l-61.87,61.87c-5.38,5.38-12.54,8.35-20.17,8.35c-0.01,0-0.02,0-0.03,0 c-4.22,0-8.28-1.23-11.77-3.55c-5.97-3.98-9.53-10.62-9.53-17.78c0-4.16,1.61-8.07,4.55-11l37.75-37.76 c1.53,0.21,3.18,0.32,4.99,0.32c9.96,0,15.28-3.43,19.55-6.2c3.55-2.29,5.89-3.8,11.42-3.8c5.52,0,7.86,1.51,11.41,3.8 C208.272,270.065,212.272,272.635,218.632,273.645z"/>
+          </g>
+          <g/>
+        </g>
+      </symbol>
+      <symbol id="island-node-full" viewBox="0 0 448.979 448.979">
+        <g>
+          <path style="fill:#E0974F;" d="M342.262,187.855c0,1.17-0.08,2.34-0.19,3.5h-17.58c-8.55,0-15.5,6.95-15.5,15.5c0,0.27-0.23,0.5-0.5,0.5h-12c-6.27,0-11.9,2.71-15.83,6.99c-7.24-6.81-11.4-16.27-11.4-26.49c0-20.13,16.37-36.5,36.5-36.5C325.882,151.355,342.262,167.725,342.262,187.855z"/>
+          <path style="fill:#5B79CE;" d="M400.492,206.355c3.58,0,6.5,2.91,6.5,6.5c0,3.58-2.92,6.5-6.5,6.5h-12c-8.55,0-15.5,6.95-15.5,15.5c0,0.27-0.23,0.5-0.5,0.5h-76c-3.59,0-6.5-2.92-6.5-6.5c0-3.59,2.91-6.5,6.5-6.5h12c8.54,0,15.5-6.96,15.5-15.5c0-0.28,0.22-0.5,0.5-0.5H400.492z"/>
+          <path style="fill:#4D4D4D;" d="M441.232,360.565c4.14,0,7.5,3.36,7.5,7.5c0,4.14-3.36,7.5-7.5,7.5c-5.53,0-7.88,1.51-11.42,3.8c-4.28,2.76-9.6,6.2-19.55,6.2c-9.96,0-15.28-3.44-19.56-6.2c-3.54-2.29-5.88-3.8-11.41-3.8s-7.87,1.51-11.41,3.8c-4.28,2.76-9.6,6.2-19.56,6.2c-9.95,0-15.27-3.44-19.55-6.2c-3.54-2.29-5.88-3.8-11.41-3.8s-7.87,1.51-11.41,3.8c-4.28,2.76-9.6,6.2-19.55,6.2c-9.95,0-15.28-3.44-19.55-6.2c-3.55-2.29-5.89-3.8-11.42-3.8c-5.52,0-7.86,1.51-11.41,3.8c-4.27,2.76-9.59,6.2-19.55,6.2c-9.95,0-15.27-3.44-19.54-6.2c-3.55-2.29-5.89-3.8-11.41-3.8c-5.53,0-7.87,1.51-11.42,3.8c-4.27,2.76-9.6,6.2-19.55,6.2s-15.27-3.44-19.55-6.2c-3.54-2.29-5.88-3.8-11.41-3.8c-5.53,0-7.87,1.51-11.41,3.8c-4.28,2.76-9.6,6.2-19.55,6.2s-15.27-3.44-19.55-6.2c-3.54-2.29-5.88-3.8-11.41-3.8s-7.87,1.51-11.41,3.8c-4.28,2.76-9.6,6.2-19.55,6.2s-15.27-3.44-19.55-6.2c-3.54-2.29-5.88-3.8-11.41-3.8c-4.14,0-7.5-3.36-7.5-7.5c0-4.14,3.36-7.5,7.5-7.5c9.95,0,15.27,3.44,19.55,6.2c3.54,2.29,5.88,3.8,11.41,3.8s7.87-1.51,11.41-3.8c4.27-2.76,9.6-6.2,19.55-6.2s15.27,3.44,19.55,6.2c3.3,2.13,5.56,3.59,10.32,3.78c20.37-24.87,47.05-42.7,76.88-51.94c4.95-61.07-13.43-108.8-23.4-129.59c-0.97,1.02-1.76,1.65-2.24,1.98c-1.27,0.89-2.77,1.36-4.29,1.36c-0.45,0-0.9-0.04-1.34-0.12c-15.57-2.83-27.07-13.68-33.73-21.82l-29.81,43.37c-1.2,1.76-3.11,2.92-5.23,3.19c-0.31,0.04-0.63,0.06-0.95,0.06c-1.79,0-3.54-0.64-4.91-1.84c-14.5-12.58-22.9-42.82-19.55-70.33c2.48-20.36,11.06-35.27,24.18-41.98c2.53-1.29,5.11-2.34,7.74-3.17c8.92-20.96,29.57-34.78,52.62-34.78c7.07,0,13.92,1.28,20.43,3.78c2.42-1.32,4.98-2.45,7.67-3.37c13.94-4.78,30.63-0.6,46.99,11.76c22.12,16.7,38.03,43.75,37.02,62.92c-0.11,2.13-1.13,4.12-2.8,5.46c-1.34,1.07-3,1.64-4.69,1.64c-0.41,0-0.83-0.03-1.24-0.1l-72.55-12.15c0.01,1.59-0.01,3.13-0.04,4.63c40.8,48.15,63.92,108.86,65.58,172.03c45.94,2.06,88.28,23.26,117.55,59c4.75-0.19,7.01-1.64,10.31-3.77c4.27-2.76,9.6-6.2,19.55-6.2c9.95,0,15.28,3.44,19.55,6.2c3.55,2.29,5.89,3.8,11.42,3.8s7.87-1.51,11.41-3.8C425.952,364.005,431.272,360.565,441.232,360.565z"/>
+          <path style="fill:#E5D665;" d="M318.662,360.595c-0.43-0.02-0.85-0.03-1.3-0.03c-9.95,0-15.27,3.44-19.55,6.2c-3.54,2.29-5.88,3.8-11.41,3.8s-7.87-1.51-11.41-3.8c-4.28-2.76-9.6-6.2-19.56-6.2c-9.95,0-15.27,3.44-19.55,6.2c-3.54,2.29-5.88,3.8-11.41,3.8c-5.52,0-7.86-1.51-11.41-3.8c-4.27-2.76-9.59-6.2-19.54-6.2c-9.96,0-15.28,3.44-19.56,6.2c-3.54,2.29-5.88,3.8-11.41,3.8s-7.87-1.51-11.41-3.8c-4.28-2.76-9.6-6.2-19.55-6.2c-0.44,0-0.85,0.01-1.27,0.03c26.13-22.02,59.17-34.24,94.17-34.24S292.532,338.575,318.662,360.595z"/>
+          <path style="fill:#77CE6F;" d="M231.612,130.595l-88.25-14.77c1.14-10.05,5.84-29.7,25.11-36.29c12.24-4.19,25.99,4.18,33.09,9.54C216.132,100.075,228.072,117.035,231.612,130.595z"/>
+          <path style="fill:#E0974F;" d="M164.412,161.145c32.56,43.33,50.95,95.9,52.46,150.4c-8.52,0.39-16.91,1.43-25.13,3.12c4.65-74.35-22.52-128.27-30.12-141.75C162.672,169.585,163.632,165.685,164.412,161.145z"/>
+          <path style="fill:#77CE6F;" d="M151.322,132.365c0.43,27.09-4.68,39.35-7.56,44.06c-11.23-3.73-19.51-13.56-23.41-19.01l18.63-27.12L151.322,132.365z"/>
+          <path style="fill:#6BB763;" d="M135.512,79.935c2.12,0,4.22,0.16,6.28,0.47c-4.27,5.19-7.65,11.41-10.03,18.58c-1.02,3.09-1.77,6.09-2.31,8.85c-2.37-1.53-5.04-3.07-7.97-4.48c-6.82-3.27-13.64-5.16-20.35-5.7C108.912,86.735,121.622,79.935,135.512,79.935z"/>
+          <path style="fill:#77CE6F;" d="M125.522,123.405l-50.66,73.73c-7.3-11.96-11.21-32.34-9-50.45c1.07-8.84,4.6-24.55,16.12-30.44c4.89-2.5,10-3.76,15.28-3.76c5.59,0,11.39,1.41,17.34,4.21C119.072,118.795,122.822,121.335,125.522,123.405z"/>
+        </g>
+      </symbol>
+      <symbol id="island-node-simple" viewBox="0 0 448.979 448.979">
+        <g>
+          <path style="fill:#4D4D4D;" d="M441.232,360.565c4.14,0,7.5,3.36,7.5,7.5c0,4.14-3.36,7.5-7.5,7.5c-5.53,0-7.88,1.51-11.42,3.8c-4.28,2.76-9.6,6.2-19.55,6.2c-9.96,0-15.28-3.44-19.56-6.2c-3.54-2.29-5.88-3.8-11.41-3.8s-7.87,1.51-11.41,3.8c-4.28,2.76-9.6,6.2-19.56,6.2c-9.95,0-15.27-3.44-19.55-6.2c-3.54-2.29-5.88-3.8-11.41-3.8s-7.87,1.51-11.41,3.8c-4.28,2.76-9.6,6.2-19.55,6.2c-9.95,0-15.28-3.44-19.55-6.2c-3.55-2.29-5.89-3.8-11.42-3.8c-5.52,0-7.86,1.51-11.41,3.8c-4.27,2.76-9.59,6.2-19.55,6.2c-9.95,0-15.27-3.44-19.54-6.2c-3.55-2.29-5.89-3.8-11.41-3.8c-5.53,0-7.87,1.51-11.42,3.8c-4.27,2.76-9.6,6.2-19.55,6.2s-15.27-3.44-19.55-6.2c-3.54-2.29-5.88-3.8-11.41-3.8c-5.53,0-7.87,1.51-11.41,3.8c-4.28,2.76-9.6,6.2-19.55,6.2s-15.27-3.44-19.55-6.2c-3.54-2.29-5.88-3.8-11.41-3.8s-7.87,1.51-11.41,3.8c-4.28,2.76-9.6,6.2-19.55,6.2s-15.27-3.44-19.55-6.2c-3.54-2.29-5.88-3.8-11.41-3.8c-4.14,0-7.5-3.36-7.5-7.5c0-4.14,3.36-7.5,7.5-7.5c9.95,0,15.27,3.44,19.55,6.2c3.54,2.29,5.88,3.8,11.41,3.8s7.87-1.51,11.41-3.8c4.27-2.76,9.6-6.2,19.55-6.2s15.27,3.44,19.55,6.2c3.3,2.13,5.56,3.59,10.32,3.78c20.37-24.87,47.05-42.7,76.88-51.94c4.95-61.07-13.43-108.8-23.4-129.59c-0.97,1.02-1.76,1.65-2.24,1.98c-1.27,0.89-2.77,1.36-4.29,1.36c-0.45,0-0.9-0.04-1.34-0.12c-15.57-2.83-27.07-13.68-33.73-21.82l-29.81,43.37c-1.2,1.76-3.11,2.92-5.23,3.19c-0.31,0.04-0.63,0.06-0.95,0.06c-1.79,0-3.54-0.64-4.91-1.84c-14.5-12.58-22.9-42.82-19.55-70.33c2.48-20.36,11.06-35.27,24.18-41.98c2.53-1.29,5.11-2.34,7.74-3.17c8.92-20.96,29.57-34.78,52.62-34.78c7.07,0,13.92,1.28,20.43,3.78c2.42-1.32,4.98-2.45,7.67-3.37c13.94-4.78,30.63-0.6,46.99,11.76c22.12,16.7,38.03,43.75,37.02,62.92c-0.11,2.13-1.13,4.12-2.8,5.46c-1.34,1.07-3,1.64-4.69,1.64c-0.41,0-0.83-0.03-1.24-0.1l-72.55-12.15c0.01,1.59-0.01,3.13-0.04,4.63c40.8,48.15,63.92,108.86,65.58,172.03c45.94,2.06,88.28,23.26,117.55,59c4.75-0.19,7.01-1.64,10.31-3.77c4.27-2.76,9.6-6.2,19.55-6.2c9.95,0,15.28,3.44,19.55,6.2c3.55,2.29,5.89,3.8,11.42,3.8s7.87-1.51,11.41-3.8C425.952,364.005,431.272,360.565,441.232,360.565z"/>
+          <path style="fill:#E5D665;" d="M318.662,360.595c-0.43-0.02-0.85-0.03-1.3-0.03c-9.95,0-15.27,3.44-19.55,6.2c-3.54,2.29-5.88,3.8-11.41,3.8s-7.87-1.51-11.41-3.8c-4.28-2.76-9.6-6.2-19.56-6.2c-9.95,0-15.27,3.44-19.55,6.2c-3.54,2.29-5.88,3.8-11.41,3.8c-5.52,0-7.86-1.51-11.41-3.8c-4.27-2.76-9.59-6.2-19.54-6.2c-9.96,0-15.28,3.44-19.56,6.2c-3.54,2.29-5.88,3.8-11.41,3.8s-7.87-1.51-11.41-3.8c-4.28-2.76-9.6-6.2-19.55-6.2c-0.44,0-0.85,0.01-1.27,0.03c26.13-22.02,59.17-34.24,94.17-34.24S292.532,338.575,318.662,360.595z"/>
+          <path style="fill:#77CE6F;" d="M231.612,130.595l-88.25-14.77c1.14-10.05,5.84-29.7,25.11-36.29c12.24-4.19,25.99,4.18,33.09,9.54C216.132,100.075,228.072,117.035,231.612,130.595z"/>
+          <path style="fill:#E0974F;" d="M164.412,161.145c32.56,43.33,50.95,95.9,52.46,150.4c-8.52,0.39-16.91,1.43-25.13,3.12c4.65-74.35-22.52-128.27-30.12-141.75C162.672,169.585,163.632,165.685,164.412,161.145z"/>
+          <path style="fill:#77CE6F;" d="M151.322,132.365c0.43,27.09-4.68,39.35-7.56,44.06c-11.23-3.73-19.51-13.56-23.41-19.01l18.63-27.12L151.322,132.365z"/>
+          <path style="fill:#6BB763;" d="M135.512,79.935c2.12,0,4.22,0.16,6.28,0.47c-4.27,5.19-7.65,11.41-10.03,18.58c-1.02,3.09-1.77,6.09-2.31,8.85c-2.37-1.53-5.04-3.07-7.97-4.48c-6.82-3.27-13.64-5.16-20.35-5.7C108.912,86.735,121.622,79.935,135.512,79.935z"/>
+          <path style="fill:#77CE6F;" d="M125.522,123.405l-50.66,73.73c-7.3-11.96-11.21-32.34-9-50.45c1.07-8.84,4.6-24.55,16.12-30.44c4.89-2.5,10-3.76,15.28-3.76c5.59,0,11.39,1.41,17.34,4.21C119.072,118.795,122.822,121.335,125.522,123.405z"/>
+        </g>
+      </symbol>
+    </svg>
+
+    <section class="scene" aria-label="Bottle drifting between three island nodes">
+      <div class="center-copy" id="centerCopy" aria-live="polite"></div>
+      <div class="end-card" id="endCard" aria-live="polite">
+        <div>
+          <p class="end-card-title">Driftya</p>
+          <div class="logo-frame">
+            <img src="../assets/logo/icon-square.png" alt="Driftya logo">
+          </div>
+        </div>
+      </div>
+
+      <div class="drift-lane" aria-hidden="true">
+        <div class="node node-start" data-node="start">
+          <p class="node-label">One note</p>
+          <svg class="island-svg" viewBox="0 0 448.979 448.979" aria-hidden="true"><use href="#island-node-simple"></use></svg>
+        </div>
+
+        <div class="node node-middle" data-node="middle">
+          <p class="node-label">One reply</p>
+          <svg class="island-svg" viewBox="0 0 448.979 448.979" aria-hidden="true"><use href="#island-node-simple"></use></svg>
+        </div>
+
+        <div class="node node-end" data-node="end">
+          <p class="node-label">Moves on</p>
+          <svg class="island-svg" viewBox="0 0 448.979 448.979" aria-hidden="true"><use href="#island-node-full"></use></svg>
+        </div>
+
+        <div class="bottle-track" id="bottleTrack">
+          <svg class="bottle" viewBox="0 0 448.978 448.978" role="img" aria-label="Drifting message bottle">
+            <use href="#message-bottle"></use>
+          </svg>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const lane = document.querySelector(".drift-lane");
+      const bottleTrack = document.getElementById("bottleTrack");
+      const centerCopy = document.getElementById("centerCopy");
+      const endCard = document.getElementById("endCard");
+      const nodes = Array.from(document.querySelectorAll("[data-node]"));
+      if (!lane || !bottleTrack || !centerCopy || !endCard || nodes.length < 3) return;
+
+      const segmentPairs = [
+        [0, 1],
+        [1, 2]
+      ];
+      const segmentDurationMs = 9800;
+      const endCardDurationMs = 4200;
+      const fadeRatio = 0.18;
+      const fadeOutEnd = 0.9;
+      const fadeOutStart = fadeOutEnd - fadeRatio;
+      const hooks = [
+        "One note at a time.",
+        "One reply, then release.",
+        "Carry gently, pass forward.",
+        "No feed. No noise. Just motion."
+      ];
+
+      let centers = [];
+      let cycleStart = performance.now();
+      const phaseStart = 0.24;
+      const phaseEnd = 0.76;
+      const motionDurationMs = segmentDurationMs * segmentPairs.length;
+      const cycleDurationMs = motionDurationMs + endCardDurationMs;
+
+      const recalcCenters = () => {
+        const laneRect = lane.getBoundingClientRect();
+        centers = nodes.map((node) => {
+          const r = node.getBoundingClientRect();
+          return r.left - laneRect.left + (r.width / 2);
+        });
+      };
+
+      const update = (now) => {
+        let cycleElapsed = now - cycleStart;
+        if (cycleElapsed >= cycleDurationMs) {
+          cycleStart = now;
+          cycleElapsed = 0;
+        }
+
+        const inEndCard = cycleElapsed >= motionDurationMs;
+
+        if (inEndCard) {
+          bottleTrack.style.opacity = "0";
+          centerCopy.style.opacity = "0";
+
+          const endProgress = (cycleElapsed - motionDurationMs) / endCardDurationMs;
+          endCard.style.opacity = Math.max(0, Math.min(1, endProgress)).toString();
+
+          for (const node of nodes) {
+            node.classList.remove("is-leaving", "is-arriving");
+            node.classList.add("is-idle");
+          }
+
+          requestAnimationFrame(update);
+          return;
+        }
+
+        endCard.style.opacity = "0";
+
+        const segmentIndex = Math.min(
+          segmentPairs.length - 1,
+          Math.floor(cycleElapsed / segmentDurationMs)
+        );
+        const segmentStart = segmentIndex * segmentDurationMs;
+        const segmentElapsed = cycleElapsed - segmentStart;
+        const t = Math.max(0, Math.min(1, segmentElapsed / segmentDurationMs));
+
+        const hookWindow = motionDurationMs / hooks.length;
+        const hookIndex = Math.min(hooks.length - 1, Math.floor(cycleElapsed / hookWindow));
+        const hookProgress = (cycleElapsed % hookWindow) / hookWindow;
+        const hookFade = hookProgress < 0.16
+          ? hookProgress / 0.16
+          : hookProgress > 0.84
+            ? (1 - hookProgress) / 0.16
+            : 1;
+        centerCopy.textContent = hooks[hookIndex];
+        centerCopy.style.opacity = Math.max(0, Math.min(1, hookFade)).toString();
+
+        const bottleWidth = bottleTrack.getBoundingClientRect().width;
+        const active = segmentPairs[segmentIndex];
+        const sourceNode = nodes[active[0]];
+        const targetNode = nodes[active[1]];
+        const startX = centers[active[0]] - (bottleWidth / 2);
+        const endX = centers[active[1]] - (bottleWidth / 2);
+
+        const x = startX + ((endX - startX) * t);
+        bottleTrack.style.left = `${x}px`;
+
+        let alpha = 1;
+        if (t < fadeRatio) alpha = t / fadeRatio;
+        if (t > fadeOutStart) alpha = (fadeOutEnd - t) / fadeRatio;
+        bottleTrack.style.opacity = Math.max(0, Math.min(1, alpha)).toString();
+
+        for (const node of nodes) {
+          node.classList.remove("is-leaving", "is-arriving", "is-idle");
+          node.classList.add("is-idle");
+        }
+
+        if (sourceNode && targetNode) {
+          sourceNode.classList.remove("is-idle");
+          targetNode.classList.remove("is-idle");
+
+          if (t < phaseStart) {
+            sourceNode.classList.add("is-leaving");
+          } else if (t > phaseEnd) {
+            targetNode.classList.add("is-arriving");
+          } else {
+            sourceNode.classList.add("is-leaving");
+            targetNode.classList.add("is-arriving");
+          }
+        }
+
+        requestAnimationFrame(update);
+      };
+
+      const start = () => {
+        recalcCenters();
+        cycleStart = performance.now();
+        requestAnimationFrame(update);
+      };
+
+      window.addEventListener("resize", recalcCenters);
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(start);
+      } else {
+        start();
+      }
+    })();
+  </script>
+</body>
+</html>
