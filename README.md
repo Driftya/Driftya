@@ -19,8 +19,8 @@ Just one note at a time.
 
 ### GitHub Pages
 
-- Site: https://driftya.github.io/driftya-front/
-- Demo: https://driftya.github.io/driftya-front/demos/bottle-journey-demo.html
+- Site: https://driftya.github.io/Driftya/
+- Demo: https://driftya.github.io/Driftya/demos/bottle-journey-demo.html
 
 ---
 
