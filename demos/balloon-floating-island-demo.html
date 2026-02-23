@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Driftya Balloon Arrival</title>
+  <style>
+    :root {
+      --driftya-accent: #4f7cff;
+      --driftya-text: #0f1325;
+      --driftya-bg: #f7f8ff;
+      --stage-gradient: radial-gradient(130% 120% at 20% 0%, rgba(255, 255, 255, 0.95), rgba(219, 227, 255, 0.75), rgba(246, 247, 255, 0.9));
+      --accent-wash: rgba(79, 124, 255, 0.11);
+      --soft-shadow: rgba(15, 19, 37, 0.14);
+      --scene-width: min(94vw, 1120px);
+      --scene-height: min(76vh, 620px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Space Grotesk", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      color: var(--driftya-text);
+      background: var(--driftya-bg);
+    }
+
+    .layout {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 4vh 4vw;
+      background:
+        radial-gradient(70% 58% at 50% 105%, var(--accent-wash), transparent 72%),
+        var(--stage-gradient);
+    }
+
+    .scene {
+      position: relative;
+      width: var(--scene-width);
+      height: var(--scene-height);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .scene::before {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .scene::before {
+      inset: 12% 14% auto 14%;
+      height: 36%;
+      background:
+        radial-gradient(circle at 18% 42%, rgba(255, 255, 255, 0.48) 0 12%, transparent 50%),
+        radial-gradient(circle at 74% 30%, rgba(255, 255, 255, 0.52) 0 12%, transparent 50%),
+        radial-gradient(circle at 45% 76%, rgba(255, 255, 255, 0.28) 0 9%, transparent 48%);
+      filter: blur(10px);
+      opacity: 0.7;
+    }
+
+    .copy {
+      position: absolute;
+      left: 50%;
+      bottom: 8%;
+      transform: translateX(-50%);
+      width: min(78%, 760px);
+      text-align: center;
+      font-size: clamp(1.02rem, 2.15vw, 1.5rem);
+      line-height: 1.4;
+      letter-spacing: 0.01em;
+      font-weight: 600;
+      color: rgba(15, 19, 37, 0.9);
+      opacity: 0;
+      transition: opacity 240ms ease;
+      z-index: 7;
+      pointer-events: none;
+    }
+
+    .logo-end {
+      position: absolute;
+      left: 50%;
+      bottom: 8%;
+      transform: translateX(-50%);
+      z-index: 7;
+      opacity: 0;
+      pointer-events: none;
+      text-align: center;
+      transition: opacity 220ms ease;
+    }
+
+    .logo-frame {
+      width: clamp(3rem, 7vw, 4.2rem);
+      aspect-ratio: 1 / 1;
+      border-radius: 1rem;
+      padding: 0.18rem;
+      background: rgba(255, 255, 255, 0.78);
+      box-shadow: 0 0.36rem 0.9rem rgba(15, 19, 37, 0.12);
+      display: grid;
+      place-items: center;
+      margin: 0 auto;
+    }
+
+    .logo-title {
+      margin: 0 0 0.5rem 0;
+      font-size: clamp(1.2rem, 2.8vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: rgba(15, 19, 37, 0.94);
+    }
+
+    .logo-frame img {
+      width: 100%;
+      height: 100%;
+      border-radius: 0.8rem;
+      display: block;
+      object-fit: cover;
+    }
+
+    .island-wrap {
+      position: absolute;
+      top: 7%;
+      right: 11%;
+      width: clamp(12rem, 24vw, 17rem);
+      z-index: 4;
+      filter: drop-shadow(0 0.8rem 1rem rgba(15, 19, 37, 0.16));
+    }
+
+    .island-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 48% 18% -6% 18%;
+      border-radius: 999px;
+      background: radial-gradient(closest-side, rgba(79, 124, 255, 0.2), transparent 78%);
+      animation: aura 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .island {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+
+    .balloon-track {
+      position: absolute;
+      left: 10%;
+      top: 82%;
+      width: clamp(3.3rem, 7vw, 5.2rem);
+      z-index: 6;
+      will-change: transform, opacity;
+    }
+
+    .balloon {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: none;
+      transform-origin: 50% 68%;
+      animation: drift-bob 7.6s ease-in-out infinite;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+      overflow: visible;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    @keyframes drift-bob {
+      0%, 100% { transform: translateY(0.22rem) rotate(-2deg); }
+      50% { transform: translateY(-0.24rem) rotate(1.5deg); }
+    }
+
+    @keyframes aura {
+      0%, 100% { opacity: 0.48; transform: scale(0.95); }
+      50% { opacity: 0.72; transform: scale(1.03); }
+    }
+
+    @media (max-width: 780px) {
+      .scene {
+        height: min(68vh, 520px);
+      }
+
+      .copy {
+        bottom: 6%;
+        width: 84%;
+      }
+
+      .logo-end {
+        bottom: 6%;
+      }
+
+      .island-wrap {
+        right: 8%;
+        width: clamp(9.8rem, 30vw, 13.6rem);
+      }
+
+      .balloon-track {
+        left: 6%;
+        width: clamp(3rem, 8.6vw, 4.3rem);
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <main class="layout">
+    <h1 class="sr-only">A balloon carrying a note toward a floating island</h1>
+
+    <section class="scene" aria-label="Balloon journey toward a floating island">
+      <p class="copy" id="journeyCopy" aria-live="polite"></p>
+      <div class="logo-end" id="logoEnd" aria-hidden="true">
+        <p class="logo-title">Driftya</p>
+        <div class="logo-frame">
+          <img src="../assets/logo/icon-square.png" alt="Driftya logo">
+        </div>
+      </div>
+
+      <figure class="island-wrap">
+        <img class="island" src="../assets/icons/floating-island.svg" alt="Floating island">
+      </figure>
+
+      <div class="balloon-track" id="balloonTrack" aria-hidden="true">
+        <img class="balloon" src="../assets/icons/balloon.svg" alt="">
+      </div>
+
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const scene = document.querySelector(".scene");
+      const island = document.querySelector(".island-wrap");
+      const balloonTrack = document.getElementById("balloonTrack");
+      const journeyCopy = document.getElementById("journeyCopy");
+      const logoEnd = document.getElementById("logoEnd");
+      if (!scene || !island || !balloonTrack || !journeyCopy || !logoEnd) return;
+
+      const hooks = [
+        "One note lifts off, one at a time.",
+        "No feed below, no audience watching.",
+        "At each island, one reply is added and carried onward.",
+        "The balloon keeps moving, quietly, from person to person."
+      ];
+
+      const cycleMs = 13800;
+      const holdNearIslandMs = 2200;
+      const fadeInEdge = 0.1;
+      let cycleStart = performance.now();
+
+      const getPathPointPx = (progress) => {
+        const sceneRect = scene.getBoundingClientRect();
+        const trackRect = balloonTrack.getBoundingClientRect();
+        const maxX = Math.max(0, sceneRect.width - trackRect.width);
+        const maxY = Math.max(0, sceneRect.height - trackRect.height);
+
+        const islandRect = island.getBoundingClientRect();
+        const islandLeft = islandRect.left - sceneRect.left;
+        const islandTop = islandRect.top - sceneRect.top;
+
+        const startX = sceneRect.width * 0.08;
+        const startY = sceneRect.height * 0.68;
+
+        // Approximate the island's top ground plane and make the basket touch it.
+        const landingSurfaceX = islandLeft + (islandRect.width * 0.44);
+        const landingSurfaceY = islandTop + (islandRect.height * 0.57);
+        const endX = landingSurfaceX - (trackRect.width * 0.5);
+        const endY = landingSurfaceY - (trackRect.height * 1.15);
+
+        const settle = 1 - Math.min(1, progress * 1.25);
+        const swayX = 4.6 * settle * Math.sin(progress * Math.PI * 2.2);
+        const swayY = 2.1 * settle * Math.sin(progress * Math.PI * 3);
+
+        const rawX = startX + ((endX - startX) * progress) + swayX;
+        const rawY = startY + ((endY - startY) * progress) - swayY;
+        const clampedX = Math.min(maxX, Math.max(0, rawX));
+        const clampedY = Math.min(maxY, Math.max(0, rawY));
+
+        return { x: clampedX, y: clampedY };
+      };
+
+      const positionBalloon = (xPx, yPx) => {
+        const clampedX = Math.max(0, xPx);
+        const clampedY = Math.max(0, yPx);
+
+        balloonTrack.style.left = `${Math.round(clampedX)}px`;
+        balloonTrack.style.top = `${Math.round(clampedY)}px`;
+      };
+
+      const update = (now) => {
+        let elapsed = now - cycleStart;
+        const fullCycle = cycleMs + holdNearIslandMs;
+        if (elapsed >= fullCycle) {
+          cycleStart = now;
+          elapsed = 0;
+        }
+
+        const movingPhase = elapsed < cycleMs;
+        const moveProgress = movingPhase ? (elapsed / cycleMs) : 1;
+        const point = getPathPointPx(moveProgress);
+        positionBalloon(point.x, point.y);
+
+        let alpha = 1;
+        if (movingPhase) {
+          if (moveProgress < fadeInEdge) alpha = moveProgress / fadeInEdge;
+        } else {
+          const holdProgress = (elapsed - cycleMs) / holdNearIslandMs;
+          alpha = holdProgress < 0.55 ? 1 : Math.max(0, (1 - holdProgress) / 0.45);
+        }
+        balloonTrack.style.opacity = Math.max(0, Math.min(1, alpha)).toString();
+
+        if (movingPhase) {
+          const hookWindow = cycleMs / hooks.length;
+          const hookIndex = Math.min(hooks.length - 1, Math.floor(elapsed / hookWindow));
+          const hookProgress = (elapsed % hookWindow) / hookWindow;
+          const hookFade = hookProgress < 0.14
+            ? hookProgress / 0.14
+            : hookProgress > 0.86
+              ? (1 - hookProgress) / 0.14
+              : 1;
+          journeyCopy.textContent = hooks[hookIndex];
+          journeyCopy.style.opacity = Math.max(0, Math.min(1, hookFade)).toString();
+          logoEnd.style.opacity = "0";
+        } else {
+          const holdProgress = (elapsed - cycleMs) / holdNearIslandMs;
+          const textOut = holdProgress < 0.2 ? (1 - (holdProgress / 0.2)) : 0;
+          const logoIn = holdProgress < 0.28
+            ? 0
+            : Math.min(1, (holdProgress - 0.28) / 0.35);
+
+          journeyCopy.style.opacity = Math.max(0, Math.min(1, textOut)).toString();
+          logoEnd.style.opacity = Math.max(0, Math.min(1, logoIn)).toString();
+        }
+
+        requestAnimationFrame(update);
+      };
+
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => requestAnimationFrame(update));
+      } else {
+        requestAnimationFrame(update);
+      }
+    })();
+  </script>
+</body>
+</html>

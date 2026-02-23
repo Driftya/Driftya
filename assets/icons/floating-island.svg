@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="525.2px" height="602.278px" xmlns:bx="https://boxy-svg.com" viewBox="0 0 526.246 603.5">
+  <defs>
+    <linearGradient id="color-9" gradientUnits="userSpaceOnUse" bx:pinned="true" gradientTransform="matrix(0.754134, 0, 0, 0.754134, 1079.313782, 2027.545898)">
+      <title>FoliageLight</title>
+      <stop style="stop-color: rgb(119, 206, 111)"/>
+    </linearGradient>
+    <linearGradient id="color-8" gradientUnits="userSpaceOnUse" bx:pinned="true" gradientTransform="matrix(0.531657, 0, 0, 0.60982, 16446.458618, -3050.523926)">
+      <title>IconBorder</title>
+      <stop style="stop-color: rgb(77, 77, 77)"/>
+    </linearGradient>
+    <linearGradient id="color-11" gradientUnits="userSpaceOnUse" bx:pinned="true" gradientTransform="matrix(0.788052, 0, 0, 1.568559, 409.794983, 802.984451)">
+      <title>Wood</title>
+      <stop style="stop-color: rgb(224, 151, 79)"/>
+    </linearGradient>
+    <linearGradient id="color-10" gradientUnits="userSpaceOnUse" bx:pinned="true" gradientTransform="matrix(0.718777, 0, 0, 0.718777, 394.513275, 496.560135)">
+      <title>FoliageDark</title>
+      <stop style="stop-color: rgb(107, 183, 99)"/>
+    </linearGradient>
+  </defs>
+  <g id="object-23" style="transform-origin: 509.681px 603.565px;" transform="matrix(0.962579, 0, 0, 0.962579, 3.968882, -10.803764)">
+    <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="0" y1="187.2422" x2="281.8787" y2="187.2422" gradientTransform="matrix(1, 0, 0, 1, 216.951419, 227.996022)">
+      <stop offset="0" style="stop-color:#9A8754"/>
+      <stop offset="1" style="stop-color:#8A6537"/>
+    </linearGradient>
+    <polygon style="fill: url(&quot;#SVGID_1_&quot;); stroke: rgb(186, 218, 85); stroke-width: 0px; transform-box: fill-box; transform-origin: 50% 50%;" points="498.83 524.238 216.951 524.238 224.102 513.147 292.103 407.996 326.466 354.844 357.921 306.238 422.345 405.935 423.678 407.996" transform="matrix(-1, 0, 0, -1, 0.000126, 0.000054)"/>
+    <path style="fill: none; stroke-miterlimit: 10; stroke: rgb(186, 218, 85); stroke-width: 0px;" d="M51.185,182.025"/>
+    <polygon style="stroke: rgb(186, 218, 85); stroke-width: 0px; fill: url(&quot;#color-9&quot;); transform-box: fill-box; transform-origin: 50% 50%;" points="396.536 499.016 417.963 513.146 420.318 503.053 355.56 402.909 293.128 499.638 325.423 479.763 341.261 497.153 364.24 478.521" transform="matrix(-1, 0, 0, -1, -0.000152, -0.000072)"/>
+    <polygon style="stroke: url(&quot;#color-8&quot;); stroke-width: 15.8053px; fill: none; transform-box: fill-box; transform-origin: 50% 50%;" points="498.828 524.238 216.953 524.238 224.103 513.147 292.101 407.996 326.464 354.844 357.919 306.238 422.343 405.935 423.676 407.996" transform="matrix(-1, 0, 0, -1, 0.000126, 0.000054)"/>
+    <linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="128.9091" y1="148.1515" x2="512" y2="148.1515" gradientTransform="matrix(1, 0, 0, 1, -142.080696, 306.178952)">
+      <stop offset="0" style="stop-color:#9A8754"/>
+      <stop offset="1" style="stop-color:#8A6537"/>
+    </linearGradient>
+    <ellipse style="stroke: url(&quot;#color-8&quot;); stroke-width: 15.805; fill: url(&quot;#color-9&quot;); transform-box: fill-box; transform-origin: 50% 50%;" cx="308.05" cy="301.5" rx="39.757" ry="39.757"/>
+    <polygon style="fill: url(&quot;#SVGID_2_&quot;); stroke: rgb(186, 218, 85); stroke-width: 0px; transform-box: fill-box; transform-origin: 50% 50%;" points="369.92 602.42 -13.171 602.42 31.859 532.723 52.889 500.239 59.738 489.633 63.314 484.117 88.95 444.42 142.041 362.36 170.405 318.602 178.405 306.239 215.678 363.875 215.798 363.996 267.799 444.42" transform="matrix(-1, 0, 0, -1, 0.000023, -0.000056)"/>
+    <path style="stroke: rgb(186, 218, 85); stroke-width: 0px; fill: url(&quot;#color-9&quot;); transform-box: fill-box; transform-origin: 50% 50%;" d="M 148.987 550.058 C 148.987 550.058 173.288 593.721 173.288 591.189 C 173.288 588.657 202.012 536.69 202.012 536.69 L 245.487 567.433 L 170.529 453.422 L 102.952 558.583 L 123.913 546.938 L 124.845 578.147 L 148.987 550.058 Z" transform="matrix(-1, 0, 0, -1, -0.000168, -0.000017)"/>
+    <polygon style="fill: none; stroke: url(&quot;#color-8&quot;); stroke-width: 15.8053px; transform-box: fill-box; transform-origin: 50% 50%;" points="369.92 602.42 -13.171 602.42 31.859 532.723 52.889 500.239 59.738 489.633 63.314 484.117 88.95 444.42 142.041 362.36 170.405 318.602 178.405 306.239 215.678 363.875 215.798 363.996 267.799 444.42" transform="matrix(-1, 0, 0, -1, 0.000023, -0.000056)"/>
+    <rect x="107.65" y="127.47" width="33.718" height="177.655" style="fill: url(&quot;#color-11&quot;); stroke: url(&quot;#color-8&quot;); stroke-width: 15.8053px; transform-box: fill-box; transform-origin: 50% 50%;"/>
+    <ellipse style="stroke: url(&quot;#color-8&quot;); stroke-width: 15.8053px; fill: url(&quot;#color-10&quot;); transform-box: fill-box; transform-origin: 50% 50%;" cx="124.77" cy="85.98" rx="73.345" ry="73.345"/>
+    <ellipse style="stroke: url(&quot;#color-8&quot;); stroke-width: 15.805; fill: url(&quot;#color-9&quot;); transform-box: fill-box; transform-origin: 50% 50%;" cx="162.09" cy="52.78" rx="52.719" ry="52.719"/>
+    <g style="transform-origin: 90.0866px 462.088px;" transform="matrix(-1, 0, 0, -1, 318.656281, -321.696045)">
+      <path style="fill: rgb(77, 77, 77); stroke-width: 1.013; transform-box: fill-box; transform-origin: 50% 50%;" d="M 166.877 459.622 C 181.468 459.622 193.344 471.499 193.344 486.089 C 193.344 500.679 181.468 512.556 166.877 512.556 L 152.093 512.556 C 151.754 512.556 151.483 512.836 151.483 513.19 C 151.483 523.694 142.913 532.265 132.398 532.265 L 38.83 532.265 C 24.351 532.265 12.558 520.582 12.364 506.123 C -3.71 494.185 -13.171 475.619 -13.171 455.304 C -13.171 420.35 15.268 391.911 50.232 391.911 C 85.186 391.911 113.649 420.35 113.649 455.304 C 113.649 456.753 113.59 458.173 113.49 459.622 L 166.877 459.622 Z M 174.876 486.089 C 174.876 481.674 171.279 478.101 166.877 478.101 L 73.296 478.101 C 72.956 478.101 72.689 478.357 72.689 478.707 C 72.689 489.225 64.119 497.785 53.601 497.785 L 38.83 497.785 C 34.405 497.785 30.818 501.383 30.818 505.784 C 30.818 510.199 34.405 513.796 38.83 513.796 L 132.398 513.796 C 132.724 513.796 133.019 513.516 133.019 513.19 C 133.019 502.647 141.565 494.087 152.093 494.087 L 166.877 494.087 C 171.279 494.087 174.876 490.514 174.876 486.089 Z M 94.939 459.622 C 95.074 458.198 95.181 456.753 95.181 455.304 C 95.181 430.539 75.011 410.379 50.232 410.379 C 25.457 410.379 5.297 430.539 5.297 455.304 C 5.297 467.901 10.416 479.549 19.33 487.936 C 24.168 482.661 31.109 479.317 38.83 479.317 L 53.601 479.317 C 53.93 479.317 54.211 479.036 54.211 478.707 C 54.211 468.179 62.767 459.622 73.296 459.622 L 94.939 459.622 Z" transform="matrix(-1, 0, 0, -1, 0.000089, 0.000101)"/>
+      <path style="fill: rgb(91, 121, 206); stroke-width: 1.013; transform-box: fill-box; transform-origin: 50% 50%;" d="M 141.358 410.379 C 145.759 410.379 149.36 413.955 149.36 418.367 C 149.36 422.793 145.759 426.369 141.358 426.369 L 126.573 426.369 C 116.045 426.369 107.499 434.926 107.499 445.468 C 107.499 445.797 107.208 446.075 106.878 446.075 L 13.311 446.075 C 8.885 446.075 5.298 442.477 5.298 438.062 C 5.298 433.661 8.885 430.064 13.311 430.064 L 28.084 430.064 C 38.599 430.064 47.173 421.504 47.173 410.989 C 47.173 410.635 47.44 410.379 47.779 410.379 L 141.358 410.379 Z" transform="matrix(-1, 0, 0, -1, -0.000026, 0.000068)"/>
+      <path style="fill: rgb(224, 151, 79); stroke-width: 1.013; transform-box: fill-box; transform-origin: 50% 50%;" d="M 174.876 481.164 C 174.876 482.609 174.769 484.058 174.633 485.479 L 152.994 485.479 C 142.462 485.479 133.906 494.039 133.906 504.567 C 133.906 504.897 133.625 505.177 133.296 505.177 L 118.525 505.177 C 110.804 505.177 103.862 508.518 99.024 513.796 C 90.111 505.406 84.992 493.758 84.992 481.164 C 84.992 456.399 105.152 436.24 129.931 436.24 C 154.706 436.24 174.876 456.399 174.876 481.164 Z" transform="matrix(-1, 0, 0, -1, -0.00019, -0.000145)"/>
+    </g>
+  </g>
+</svg>
