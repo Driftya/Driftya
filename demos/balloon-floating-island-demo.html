@@ -70,6 +70,9 @@
       bottom: 8%;
       transform: translateX(-50%);
       width: min(78%, 760px);
+      min-height: calc(1.4em * 2);
+      display: grid;
+      align-items: center;
       text-align: center;
       font-size: clamp(1.02rem, 2.15vw, 1.5rem);
       line-height: 1.4;
@@ -80,6 +83,7 @@
       transition: opacity 240ms ease;
       z-index: 7;
       pointer-events: none;
+      text-wrap: balance;
     }
 
     .logo-end {
@@ -251,10 +255,10 @@
       if (!scene || !island || !balloonTrack || !journeyCopy || !logoEnd) return;
 
       const hooks = [
-        "One note lifts off, one at a time.",
-        "No feed below, no audience watching.",
-        "At each island, one reply is added and carried onward.",
-        "The balloon keeps moving, quietly, from person to person."
+        "A note rises in a small balloon.",
+        "No feed below, just quiet attention.",
+        "At each island, a new lived moment is added.",
+        "Then it drifts island to island, quietly."
       ];
 
       const cycleMs = 13800;
@@ -327,9 +331,10 @@
           const hookWindow = cycleMs / hooks.length;
           const hookIndex = Math.min(hooks.length - 1, Math.floor(elapsed / hookWindow));
           const hookProgress = (elapsed % hookWindow) / hookWindow;
+          const isLastHook = hookIndex === hooks.length - 1;
           const hookFade = hookProgress < 0.14
             ? hookProgress / 0.14
-            : hookProgress > 0.86
+            : (!isLastHook && hookProgress > 0.86)
               ? (1 - hookProgress) / 0.14
               : 1;
           journeyCopy.textContent = hooks[hookIndex];

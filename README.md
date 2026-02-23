@@ -20,7 +20,8 @@ Just one note at a time.
 ### GitHub Pages
 
 - Site: https://driftya.github.io/Driftya/
-- Demo: https://driftya.github.io/Driftya/demos/bottle-journey-demo.html
+- Demo (Bottle): https://driftya.github.io/Driftya/demos/bottle-journey-demo.html
+- Demo (Balloon): https://driftya.github.io/Driftya/demos/balloon-floating-island-demo.html
 
 ---
 
