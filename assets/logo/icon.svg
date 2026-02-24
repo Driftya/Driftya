@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <linearGradient id="gradient-0" bx:pinned="true">
+      <title>LargeLeaf</title>
+      <stop style="stop-color: rgb(94, 230, 255);" offset="0"/>
+      <stop style="stop-color: rgb(79, 124, 255);" offset="0.5"/>
+      <stop style="stop-color: rgb(255, 158, 209);" offset="1"/>
+    </linearGradient>
+    <linearGradient id="color-0" gradientUnits="userSpaceOnUse" bx:pinned="true">
+      <title>SmallLeaf</title>
+      <stop style="stop-color: rgb(255, 255, 255)"/>
+    </linearGradient>
+    <linearGradient id="color-1" gradientUnits="userSpaceOnUse" bx:pinned="true">
+      <title>Background</title>
+      <stop style="stop-color: rgb(11, 15, 40)"/>
+    </linearGradient>
+    <linearGradient id="gradient-0-0" href="#gradient-0" gradientUnits="userSpaceOnUse" x1="246" y1="160" x2="246" y2="348"/>
+    <filter id="drop-shadow-filter-0" bx:preset="drop-shadow 1 10 10 8 0.29 #e1bbef4d" color-interpolation-filters="sRGB" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+      <feOffset dx="10" dy="10"/>
+      <feComponentTransfer result="offsetblur">
+        <feFuncA id="spread-ctrl" type="linear" slope="0.58"/>
+      </feComponentTransfer>
+      <feFlood flood-color="#e1bbef4d"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <bx:export>
+      <bx:file format="png" path="favicon.png"/>
+    </bx:export>
+    <linearGradient id="gradient-0-1" href="#gradient-0" gradientUnits="userSpaceOnUse" x1="251" y1="244" x2="251" y2="352"/>
+    <linearGradient id="color-2" gradientUnits="userSpaceOnUse" bx:pinned="true">
+      <title>Border</title>
+      <stop style="stop-color: rgb(0, 0, 0)"/>
+    </linearGradient>
+  </defs>
+  <g>
+    <rect width="512" height="512" rx="128" style="fill: url(&quot;#color-1&quot;);"/>
+    <g style="filter: url(&quot;#drop-shadow-filter-0&quot;);" transform="matrix(1.866971, 0, 0, 1.866971, -203.274872, -221.94458)">
+      <path d="M336 160c-40 8-83 38-114 70-34 35-57 78-66 118 37-6 80-30 113-65 32-34 58-77 67-123z" style="fill: url(&quot;#gradient-0-0&quot;); stroke-width: 0.535627px; stroke-opacity: 0.05; stroke: url(&quot;#color-2&quot;);"/>
+      <path d="M176 352c58-10 115-54 150-108-60 10-118 55-150 108z" style="fill: url(&quot;#gradient-0-1&quot;); opacity: 0.9; stroke-width: 0.535627px; stroke-opacity: 0.05; stroke: url(&quot;#color-2&quot;);"/>
+    </g>
+  </g>
+</svg>

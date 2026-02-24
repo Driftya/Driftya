@@ -577,4 +577,23 @@
     <path style="fill: rgb(149, 120, 86); stroke-width: 1.563;" d="M 1873.66 3441.42 L 1769.31 3441.42 C 1726.16 3441.42 1691.05 3406.32 1691.05 3363.16 L 1691.05 3258.81 C 1691.05 3244.4 1702.74 3232.73 1717.14 3232.73 L 1925.83 3232.73 C 1940.24 3232.73 1951.75 3244.4 1951.75 3258.81 L 1951.75 3363.16 C 1951.75 3406.32 1916.82 3441.42 1873.66 3441.42 Z"/>
     <path style="fill: none; stroke: url(&quot;#color-8&quot;); stroke-width: 24.0074px;" d="M 1978.02 3284.9 L 1664.95 3284.9 C 1650.57 3284.9 1638.88 3273.22 1638.88 3258.81 C 1638.88 3244.4 1650.57 3232.73 1664.95 3232.73 L 1978.02 3232.73 C 1992.4 3232.73 2004.11 3244.4 2004.11 3258.81 C 2004.11 3273.22 1992.4 3284.9 1978.02 3284.9 Z"/>
   </g>
+  <g id="emoji" transform="matrix(1, 0, 0, 1, 136.986298, 196.347031)">
+    <g id="color" transform="matrix(11.111111, 0, 0, 11.111111, 846.575378, 1409.208496)">
+      <rect x="19" y="32" width="34" height="24" fill="#FFFFFF" stroke="none"/>
+      <rect x="25" y="40" width="9" height="16" stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" style="fill: url(&quot;#color-11&quot;);"/>
+      <rect x="40" y="40" width="8" height="7" fill="#92D3F5" stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+      <polygon fill="#EA5A47" stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" points="53,32 19,32.0003 19,31 35,15 53,31"/>
+      <polygon fill="#EA5A47" stroke="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" points="29,21 24,26 24,17 29,17"/>
+    </g>
+    <g id="hair" transform="matrix(11.111111, 0, 0, 11.111111, 846.575378, 1409.208496)"/>
+    <g id="skin" transform="matrix(11.111111, 0, 0, 11.111111, 846.575378, 1409.208496)"/>
+    <g id="skin-shadow" transform="matrix(11.111111, 0, 0, 11.111111, 846.575378, 1409.208496)"/>
+    <g id="line" transform="matrix(11.111111, 0, 0, 11.111111, 846.575378, 1409.208496)">
+      <rect x="25" y="40" width="9" height="16" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" style="stroke: url(&quot;#color-8&quot;);"/>
+      <rect x="40" y="40" width="8" height="7" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" style="stroke: url(&quot;#color-8&quot;);"/>
+      <polygon fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" points="53,32 19,32.0003 19,31 35,15 53,31" style="stroke: url(&quot;#color-8&quot;);"/>
+      <rect x="19" y="32" width="34" height="24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" style="stroke: url(&quot;#color-8&quot;);"/>
+      <polygon fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" points="29,21 24,26 24,17 29,17" style="stroke: url(&quot;#color-8&quot;);"/>
+    </g>
+  </g>
 </svg>

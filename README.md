@@ -22,6 +22,7 @@ Just one note at a time.
 - Site: https://driftya.github.io/Driftya/
 - Demo (Bottle): https://driftya.github.io/Driftya/demos/bottle-journey-demo.html
 - Demo (Balloon): https://driftya.github.io/Driftya/demos/balloon-floating-island-demo.html
+- Demo (Window Light): https://driftya.github.io/Driftya/demos/window-light-one-room-demo.html
 
 ---
 

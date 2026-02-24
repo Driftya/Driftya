@@ -1,0 +1,398 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Driftya Window Light Houses Demo</title>
+  <style>
+    :root {
+      --sky-1: #080d1f;
+      --sky-2: #111936;
+      --ground-1: #131c3d;
+      --ground-2: #0d1430;
+      --house-stroke: rgba(120, 137, 186, 0.38);
+      --house-fill: rgba(20, 29, 58, 0.88);
+      --light-core: #ffeab1;
+      --light-warm: #ffc95f;
+      --text: #f2f5ff;
+      --text-soft: rgba(242, 245, 255, 0.8);
+      --cycle: 10s;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: "Space Grotesk", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(120% 110% at 50% 10%, var(--sky-2), var(--sky-1));
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    main {
+      position: relative;
+      width: min(96vw, 1080px);
+      aspect-ratio: 9 / 16;
+      max-height: 96vh;
+      border-radius: 1rem;
+      overflow: hidden;
+      background:
+        radial-gradient(120% 140% at 82% 14%, rgba(79, 124, 255, 0.16), transparent 55%),
+        linear-gradient(180deg, #10193c 0%, #0a122d 58%, #091028 100%);
+      box-shadow: 0 1rem 2.8rem rgba(2, 4, 12, 0.58);
+      isolation: isolate;
+    }
+
+    .haze {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(70% 50% at 50% 26%, rgba(255, 255, 255, 0.05), transparent 72%),
+        radial-gradient(100% 85% at 50% 100%, rgba(130, 158, 255, 0.12), transparent 76%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .copy {
+      position: absolute;
+      top: 14%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(86%, 760px);
+      text-align: center;
+      z-index: 4;
+    }
+
+    .line {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 510;
+      letter-spacing: 0.01em;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: textCycle var(--cycle) infinite;
+      color: var(--text);
+    }
+
+    .line.one { color: rgba(255, 226, 171, 0.96); }
+    .line.two { animation-delay: 1.2s; color: var(--text-soft); }
+    .line.three { animation-delay: 5s; color: rgba(255, 226, 171, 0.96); }
+    .line.four { animation-delay: 6.2s; color: rgba(232, 239, 255, 0.88); font-style: italic; }
+
+    .line + .line { margin-top: 0.35rem; }
+
+    .brand {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 30%;
+      display: grid;
+      justify-items: center;
+      gap: 0.22rem;
+      z-index: 4;
+      opacity: 0;
+      animation: brandReveal var(--cycle) infinite;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .brand img {
+      width: 2rem;
+      height: 2rem;
+      display: block;
+    }
+
+    .brand span {
+      font-size: 2rem;
+      font-weight: 600;
+      color: rgba(236, 241, 255, 0.94);
+      letter-spacing: 0.01em;
+      text-shadow: 0 0.15rem 0.45rem rgba(4, 8, 20, 0.42);
+    }
+
+    .ground {
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 38%;
+      background: linear-gradient(180deg, transparent, rgba(12, 19, 44, 0.85) 25%, rgba(9, 14, 34, 1) 100%);
+      z-index: 1;
+    }
+
+    .neighborhood {
+      position: absolute;
+      inset: 25% 0 7% 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .house-wrap {
+      position: absolute;
+      transform-origin: center bottom;
+    }
+
+    .house {
+      width: 100%;
+      height: auto;
+      display: block;
+      fill: none;
+      shape-rendering: geometricPrecision;
+    }
+
+    .house-outline {
+      fill: none;
+      stroke: var(--house-stroke);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-miterlimit: 10;
+    }
+
+    .window-light {
+      fill: url(#window-glow);
+      opacity: 0;
+      transition: opacity 240ms ease;
+    }
+
+    .house-wrap.active .window-light {
+      opacity: 1;
+      filter: drop-shadow(0 0 4px rgba(255, 213, 108, 0.72)) drop-shadow(0 0 10px rgba(255, 201, 95, 0.42));
+    }
+
+    .surface-glow {
+      position: absolute;
+      width: clamp(4.5rem, 14vw, 9.5rem);
+      height: clamp(2.4rem, 8vw, 5rem);
+      border-radius: 50%;
+      background: radial-gradient(60% 60% at 50% 50%, rgba(255, 214, 122, 0.44), rgba(255, 201, 95, 0.16), transparent 72%);
+      filter: blur(6px);
+      opacity: 0;
+      transition: opacity 260ms ease;
+      transform: translate(-50%, -50%);
+    }
+
+    .surface-glow.active {
+      opacity: 1;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    @keyframes textCycle {
+      0%, 8% { opacity: 0; transform: translateY(8px); }
+      14%, 30% { opacity: 1; transform: translateY(0); }
+      38%, 100% { opacity: 0; transform: translateY(-6px); }
+    }
+
+    @keyframes brandReveal {
+      0%, 92% { opacity: 0; transform: translateY(8px); }
+      96%, 99% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(0); }
+    }
+
+    @media (max-width: 760px) {
+      .copy {
+        top: 24%;
+        width: 90%;
+      }
+
+      .line {
+        font-size: 1rem;
+      }
+
+      .neighborhood {
+        inset: 30% 0 6% 0;
+      }
+
+      .brand {
+        bottom: 41%;
+      }
+
+      .brand img {
+        width: 1.4rem;
+        height: 1.4rem;
+      }
+    }
+
+    @media (orientation: landscape) and (min-width: 761px) {
+      .copy {
+        top: 18%;
+      }
+
+      .neighborhood {
+        inset: 38% 0 4% 0;
+      }
+
+      .house-wrap[data-id="a"] { width: 14% !important; }
+      .house-wrap[data-id="b"] { width: 11% !important; }
+      .house-wrap[data-id="c"] { width: 16% !important; }
+      .house-wrap[data-id="d"] { width: 11.5% !important; }
+      .house-wrap[data-id="e"] { width: 9% !important; }
+
+      .brand {
+        top: 44%;
+        bottom: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 class="sr-only">Dark neighborhood with sequential lit windows</h1>
+
+    <div class="haze" aria-hidden="true"></div>
+
+    <section class="copy" aria-hidden="true">
+      <p class="line one">One dark window warms.</p>
+      <p class="line two">A thought finds one room.</p>
+      <p class="line three">Another window answers.</p>
+      <p class="line four">Quiet moves, one light at a time.</p>
+    </section>
+
+    <div class="brand" aria-hidden="true">
+      <img src="../assets/logo/icon-dark.svg" alt="">
+      <span>Driftya</span>
+    </div>
+
+    <section class="neighborhood" id="neighborhood" aria-hidden="true">
+      <svg width="0" height="0" style="position:absolute;overflow:hidden">
+        <defs>
+          <radialGradient id="window-glow" cx="50%" cy="50%" r="70%">
+            <stop offset="0%" stop-color="#fff2c8"/>
+            <stop offset="55%" stop-color="#ffd87f"/>
+            <stop offset="100%" stop-color="#ffbd55"/>
+          </radialGradient>
+          <radialGradient id="window-halo" cx="50%" cy="50%" r="78%">
+            <stop offset="0%" stop-color="#ffe7a6" stop-opacity="0.95"/>
+            <stop offset="62%" stop-color="#ffc75a" stop-opacity="0.45"/>
+            <stop offset="100%" stop-color="#ffc75a" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+      </svg>
+
+      <div class="house-wrap" data-id="a" style="left: 10%; bottom: 8%; width: 21%;">
+        <svg class="house" viewBox="0 0 72 72">
+          <rect class="house-outline" x="25" y="40" width="9" height="16"/>
+          <rect class="house-outline" x="40" y="40" width="8" height="7"/>
+          <polygon class="house-outline" points="53,32 19,32.0003 19,31 35,15 53,31"/>
+          <rect class="house-outline" x="19" y="32" width="34" height="24"/>
+          <polygon class="house-outline" points="29,21 24,26 24,17 29,17"/>
+          <rect class="window-light" x="39.7" y="39.8" width="8.5" height="7.4" rx="1" fill="url(#window-halo)"/>
+          <rect class="window-light" x="40.8" y="40.9" width="6.2" height="5.2" rx="0.8"/>
+        </svg>
+      </div>
+
+      <div class="house-wrap" data-id="b" style="left: 31%; bottom: 11%; width: 16%;">
+        <svg class="house" viewBox="0 0 72 72">
+          <rect class="house-outline" x="25" y="40" width="9" height="16"/>
+          <rect class="house-outline" x="40" y="40" width="8" height="7"/>
+          <polygon class="house-outline" points="53,32 19,32.0003 19,31 35,15 53,31"/>
+          <rect class="house-outline" x="19" y="32" width="34" height="24"/>
+          <polygon class="house-outline" points="29,21 24,26 24,17 29,17"/>
+          <rect class="window-light" x="39.7" y="39.8" width="8.5" height="7.4" rx="1" fill="url(#window-halo)"/>
+          <rect class="window-light" x="40.8" y="40.9" width="6.2" height="5.2" rx="0.8"/>
+        </svg>
+      </div>
+
+      <div class="house-wrap" data-id="c" style="left: 52%; bottom: 9%; width: 24%;">
+        <svg class="house" viewBox="0 0 72 72">
+          <rect class="house-outline" x="25" y="40" width="9" height="16"/>
+          <rect class="house-outline" x="40" y="40" width="8" height="7"/>
+          <polygon class="house-outline" points="53,32 19,32.0003 19,31 35,15 53,31"/>
+          <rect class="house-outline" x="19" y="32" width="34" height="24"/>
+          <polygon class="house-outline" points="29,21 24,26 24,17 29,17"/>
+          <rect class="window-light" x="39.7" y="39.8" width="8.5" height="7.4" rx="1" fill="url(#window-halo)"/>
+          <rect class="window-light" x="40.8" y="40.9" width="6.2" height="5.2" rx="0.8"/>
+        </svg>
+      </div>
+
+      <div class="house-wrap" data-id="d" style="left: 74%; bottom: 12%; width: 17%;">
+        <svg class="house" viewBox="0 0 72 72">
+          <rect class="house-outline" x="25" y="40" width="9" height="16"/>
+          <rect class="house-outline" x="40" y="40" width="8" height="7"/>
+          <polygon class="house-outline" points="53,32 19,32.0003 19,31 35,15 53,31"/>
+          <rect class="house-outline" x="19" y="32" width="34" height="24"/>
+          <polygon class="house-outline" points="29,21 24,26 24,17 29,17"/>
+          <rect class="window-light" x="39.7" y="39.8" width="8.5" height="7.4" rx="1" fill="url(#window-halo)"/>
+          <rect class="window-light" x="40.8" y="40.9" width="6.2" height="5.2" rx="0.8"/>
+        </svg>
+      </div>
+
+      <div class="house-wrap" data-id="e" style="left: 84%; bottom: 8%; width: 13%;">
+        <svg class="house" viewBox="0 0 72 72">
+          <rect class="house-outline" x="25" y="40" width="9" height="16"/>
+          <rect class="house-outline" x="40" y="40" width="8" height="7"/>
+          <polygon class="house-outline" points="53,32 19,32.0003 19,31 35,15 53,31"/>
+          <rect class="house-outline" x="19" y="32" width="34" height="24"/>
+          <polygon class="house-outline" points="29,21 24,26 24,17 29,17"/>
+          <rect class="window-light" x="39.7" y="39.8" width="8.5" height="7.4" rx="1" fill="url(#window-halo)"/>
+          <rect class="window-light" x="40.8" y="40.9" width="6.2" height="5.2" rx="0.8"/>
+        </svg>
+      </div>
+
+      <div class="surface-glow" id="surfaceGlow"></div>
+    </section>
+
+    <div class="ground" aria-hidden="true"></div>
+  </main>
+
+  <script>
+    (() => {
+      const neighborhood = document.getElementById("neighborhood");
+      const glow = document.getElementById("surfaceGlow");
+      if (!neighborhood || !glow) return;
+
+      const houses = Array.from(neighborhood.querySelectorAll(".house-wrap"));
+      const byId = Object.fromEntries(houses.map((h) => [h.dataset.id, h]));
+
+      const cycleMs = 10000;
+      const firstPhase = { id: "b", start: 900, end: 4300 };
+      const secondPhase = { id: "d", start: 5400, end: 8800 };
+
+      const setActive = (house) => {
+        houses.forEach((h) => h.classList.remove("active"));
+        glow.classList.remove("active");
+        if (!house) return;
+
+        house.classList.add("active");
+
+        const nRect = neighborhood.getBoundingClientRect();
+        const hRect = house.getBoundingClientRect();
+        const x = hRect.left - nRect.left + (hRect.width * 0.5);
+        const y = hRect.top - nRect.top + (hRect.height * 0.86);
+
+        glow.style.left = `${x}px`;
+        glow.style.top = `${y}px`;
+        glow.classList.add("active");
+      };
+
+      const tick = (now) => {
+        const t = now % cycleMs;
+        if (t >= firstPhase.start && t <= firstPhase.end) {
+          setActive(byId[firstPhase.id]);
+        } else if (t >= secondPhase.start && t <= secondPhase.end) {
+          setActive(byId[secondPhase.id]);
+        } else {
+          setActive(null);
+        }
+        requestAnimationFrame(tick);
+      };
+
+      requestAnimationFrame(tick);
+      window.addEventListener("resize", () => setActive(null));
+    })();
+  </script>
+</body>
+</html>
