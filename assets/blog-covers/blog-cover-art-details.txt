@@ -1,0 +1,301 @@
+Driftya Blog Cover Image Style Guide
+1. Core Visual Theme
+
+Every cover image should communicate quiet human interaction in a calm environment.
+
+The imagery should feel:
+
+• reflective
+• intimate
+• calm rather than dramatic
+• slightly magical but grounded in reality
+
+Scenes should show people interacting with messages, thoughts, or each other, not performing for an audience.
+
+Examples from your images:
+
+giving a letter to someone
+
+sitting in a circle sharing something
+
+quietly looking at a message
+
+messages drifting between people
+
+The visual metaphor should always be one message moving between people.
+
+2. Art Style
+Painterly Digital Illustration
+
+The art style should be:
+
+• soft painterly brush strokes
+• semi-realistic characters
+• warm lighting
+• soft depth of field
+• subtle glow effects
+
+Avoid:
+
+• sharp vector styles
+• cartoon exaggeration
+• hyperrealistic photography
+• noisy textures
+
+Lighting should usually be:
+
+• sunset
+• sunrise
+• blue hour
+• early night
+
+These times naturally create the calm color palettes seen in your images.
+
+3. Composition
+Human Focus
+
+People should always be present.
+
+Recommended patterns:
+
+Two people
+
+exchanging a message
+
+sitting across from each other
+
+quietly interacting
+
+Small group (3–6 people)
+
+sitting in a circle
+
+sharing something central
+
+listening rather than performing
+
+Avoid:
+
+• crowds
+• audiences
+• stages
+• influencer-like poses
+
+People should feel like participants, not performers.
+
+4. Character Design
+
+Characters should look like ordinary young people, not stylized influencers.
+
+Typical appearance:
+
+• casual clothing (hoodies, sweaters, jackets)
+• backpacks
+• simple hairstyles
+• glasses sometimes
+• neutral expressions
+
+Expressions should feel:
+
+• thoughtful
+• slightly shy
+• calm
+• curious
+
+Avoid:
+
+• exaggerated anime expressions
+• fashion model poses
+• dramatic emotions
+
+5. Clothing Color System (Mood Language)
+
+Clothing color communicates emotional tone.
+
+Use colors consistently.
+
+Mood	Clothing Color	Meaning
+Soft	warm beige / light orange	comfort, warmth
+Quiet	muted blue / gray	calm thinking
+Bright	warm yellow	optimism, clarity
+Heavy	muted violet / purple	introspection
+Restless	cool gray / teal	uncertainty
+
+Example:
+
+the yellow shirt in your images becomes the emotional anchor
+
+blue hoodies represent quiet reflection
+
+orange clothing represents warmth
+
+Clothing should always be matte and slightly desaturated.
+
+6. Color Palette
+
+The overall palette should match Driftya's calm aesthetic.
+
+Primary tones in backgrounds:
+
+• sunset peach
+• lavender sky
+• dusk blue
+• warm gold highlights
+• soft violet shadows
+
+Approximate palette:
+
+Sunset Gold      #f4b860
+Lavender Sky     #9fa8ff
+Soft Peach       #f5a7a1
+Calm Blue        #6d86b3
+Warm Violet      #8c78a5
+Night Blue       #394c73
+
+Lighting highlights should often be gold or soft white glow.
+
+7. Message Visualization
+
+Messages should feel gentle and physical, not like UI screenshots.
+
+Good visual metaphors:
+
+• glowing letter
+• floating speech bubble
+• drifting message cards
+• glowing circle connection
+• message traveling through the air
+
+Avoid:
+
+• visible app interfaces
+• obvious UI elements
+• big tech-looking overlays
+
+Messages should look almost magical but subtle.
+
+8. Environment
+
+Locations should feel calm and familiar.
+
+Recommended settings:
+
+• lakeside at sunset
+• quiet campus
+• park at dusk
+• rooftop overlooking city
+• quiet forest clearing
+
+Nature or open spaces work best.
+
+Avoid:
+
+• busy streets
+• crowded interiors
+• loud urban environments
+
+9. Lighting
+
+Lighting should be soft and atmospheric.
+
+Typical lighting setups:
+
+Golden hour
+
+warm highlights
+
+long shadows
+
+Twilight
+
+violet sky
+
+soft glow
+
+Night
+
+moonlight + warm lamps
+
+Always maintain soft contrast.
+
+10. Symbolic Motifs
+
+Recurring motifs help build visual identity.
+
+Examples you already use:
+
+• glowing message
+• circular connection ring
+• drifting messages
+• letter passing hands
+• calm water reflections
+
+These should appear subtly.
+
+11. Framing
+
+Recommended formats:
+
+Blog hero: 16:9
+
+Safe composition:
+
+• people slightly off-center
+• horizon line low
+• sky used for breathing space
+
+Avoid tight crops.
+
+12. Emotional Tone
+
+Every image should feel like:
+
+a small quiet moment between people.
+
+Not:
+
+• viral content
+• attention grabbing
+• dramatic storytelling
+
+The viewer should feel:
+
+"This moment belongs to these people."
+
+13. Visual Consistency Rules
+
+Always include:
+
+✓ people
+✓ calm lighting
+✓ sunset/dusk palette
+✓ subtle message metaphor
+
+Never include:
+
+✗ loud graphics
+✗ high contrast neon colors
+✗ influencer posing
+✗ visible phone apps or feeds
+
+14. Prompt Template (for generating future images)
+
+You can reuse this:
+
+A calm painterly digital illustration at sunset.
+Young people in casual clothing sitting quietly near water or a park.
+Soft warm lighting and lavender sky.
+One glowing message or letter drifting gently between them.
+Clothing colors reflect moods: muted blue, warm orange, soft yellow, violet.
+Soft cinematic lighting, atmospheric, peaceful, semi-realistic style.
+
+If you want, I can also create a very powerful addition:
+
+A “Driftya visual universe guide”
+that defines recurring characters (like the boy with glasses, the orange hoodie girl, etc.), so all blog images feel like they exist in the same world.
+
+That kind of consistency dramatically strengthens brand identity.
+
+
+15. Not by LLM, I will do final touch in Pain.NET
+Mosaic Distortions - strength 12
