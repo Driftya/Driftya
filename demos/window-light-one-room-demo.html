@@ -16,7 +16,7 @@
       --light-warm: #ffc95f;
       --text: #f2f5ff;
       --text-soft: rgba(242, 245, 255, 0.8);
-      --cycle: 10s;
+      --cycle: 15s;
     }
 
     * { box-sizing: border-box; }
@@ -197,8 +197,8 @@
     }
 
     @keyframes brandReveal {
-      0%, 92% { opacity: 0; transform: translateY(8px); }
-      96%, 99% { opacity: 1; transform: translateY(0); }
+      0%, 86% { opacity: 0; transform: translateY(8px); }
+      90%, 99% { opacity: 1; transform: translateY(0); }
       100% { opacity: 0; transform: translateY(0); }
     }
 
@@ -357,9 +357,13 @@
       const houses = Array.from(neighborhood.querySelectorAll(".house-wrap"));
       const byId = Object.fromEntries(houses.map((h) => [h.dataset.id, h]));
 
-      const cycleMs = 10000;
-      const firstPhase = { id: "b", start: 900, end: 4300 };
-      const secondPhase = { id: "d", start: 5400, end: 8800 };
+      const rootStyles = getComputedStyle(document.documentElement);
+      const cssCycleSeconds = parseFloat(rootStyles.getPropertyValue("--cycle")) || 15;
+      const cycleMs = Math.round(cssCycleSeconds * 1000);
+      // Preserve the original working timing proportions from the 10s version.
+      const firstPhase = { id: "b", start: Math.round(cycleMs * 0.09), end: Math.round(cycleMs * 0.43) };
+      const secondPhase = { id: "d", start: Math.round(cycleMs * 0.46), end: Math.round(cycleMs * 0.88) };
+      let cycleStart = null;
 
       const setActive = (house) => {
         houses.forEach((h) => h.classList.remove("active"));
@@ -379,7 +383,8 @@
       };
 
       const tick = (now) => {
-        const t = now % cycleMs;
+        if (cycleStart === null) cycleStart = now;
+        const t = (now - cycleStart) % cycleMs;
         if (t >= firstPhase.start && t <= firstPhase.end) {
           setActive(byId[firstPhase.id]);
         } else if (t >= secondPhase.start && t <= secondPhase.end) {
