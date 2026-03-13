@@ -356,6 +356,9 @@
 
       const houses = Array.from(neighborhood.querySelectorAll(".house-wrap"));
       const byId = Object.fromEntries(houses.map((h) => [h.dataset.id, h]));
+      const switchSound = new Audio("../assets/audio/dragon-studio-light-switch-on-382714.mp3");
+      switchSound.preload = "auto";
+      switchSound.volume = 0.35;
 
       const rootStyles = getComputedStyle(document.documentElement);
       const cssCycleSeconds = parseFloat(rootStyles.getPropertyValue("--cycle")) || 15;
@@ -363,9 +366,44 @@
       // Preserve the original working timing proportions from the 10s version.
       const firstPhase = { id: "b", start: Math.round(cycleMs * 0.09), end: Math.round(cycleMs * 0.43) };
       const secondPhase = { id: "d", start: Math.round(cycleMs * 0.46), end: Math.round(cycleMs * 0.88) };
+      const switchLeadMs = 120;
       let cycleStart = null;
+      let activeHouseId = null;
+      let audioUnlocked = false;
+      let lastSwitchToken = "";
+
+      const unlockAudio = () => {
+        audioUnlocked = true;
+      };
+
+      window.addEventListener("pointerdown", unlockAudio, { once: true });
+      window.addEventListener("keydown", unlockAudio, { once: true });
+
+      const playSwitch = () => {
+        if (!audioUnlocked) return;
+        try {
+          switchSound.currentTime = 0;
+          const playPromise = switchSound.play();
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(() => {});
+          }
+        } catch (_) {
+          // Ignore blocked or interrupted playback.
+        }
+      };
+
+      const playSwitchOnce = (token) => {
+        if (lastSwitchToken === token) return;
+        if (!audioUnlocked) return;
+        lastSwitchToken = token;
+        playSwitch();
+      };
 
       const setActive = (house) => {
+        const nextHouseId = house ? house.dataset.id : null;
+        if (nextHouseId === activeHouseId) return;
+        activeHouseId = nextHouseId;
+
         houses.forEach((h) => h.classList.remove("active"));
         glow.classList.remove("active");
         if (!house) return;
@@ -384,11 +422,25 @@
 
       const tick = (now) => {
         if (cycleStart === null) cycleStart = now;
-        const t = (now - cycleStart) % cycleMs;
+        const elapsed = now - cycleStart;
+        const t = elapsed % cycleMs;
+        const cycleIndex = Math.floor(elapsed / cycleMs);
+        const firstToken = `${cycleIndex}:first`;
+        const secondToken = `${cycleIndex}:second`;
+
+        if (t >= Math.max(0, firstPhase.start - switchLeadMs) && t < firstPhase.start) {
+          playSwitchOnce(firstToken);
+        }
+        if (t >= Math.max(0, secondPhase.start - switchLeadMs) && t < secondPhase.start) {
+          playSwitchOnce(secondToken);
+        }
+
         if (t >= firstPhase.start && t <= firstPhase.end) {
           setActive(byId[firstPhase.id]);
+          playSwitchOnce(firstToken);
         } else if (t >= secondPhase.start && t <= secondPhase.end) {
           setActive(byId[secondPhase.id]);
+          playSwitchOnce(secondToken);
         } else {
           setActive(null);
         }
