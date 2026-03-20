@@ -312,11 +312,11 @@
           label: "heavy",
           iconPath: "../assets/icons/anchor.svg",
           x: 0.54,
-          y: 0.8,
+          y: 0.74,
           driftX: 8,
           driftY: 9,
           phase: 2.2,
-          destination: { x: 0.52, y: 0.9 }
+          destination: { x: 0.64, y: 0.9 }
         },
         {
           id: "bright",
@@ -430,13 +430,16 @@
       };
 
       const buildRoute = (nodePosition, destinationPoint) => {
+        const isHeavyRoute = destinationPoint.x > nodePosition.x && destinationPoint.y > nodePosition.y;
         const controlOne = {
           x: origin.x + ((nodePosition.x - origin.x) * 0.42) + ((nodePosition.x < origin.x ? -1 : 1) * width * 0.04),
-          y: origin.y - (height * 0.28)
+          y: origin.y - (height * (isHeavyRoute ? 0.22 : 0.28))
         };
         const controlTwo = {
-          x: nodePosition.x + ((destinationPoint.x - nodePosition.x) * 0.48),
-          y: Math.min(nodePosition.y, destinationPoint.y) - (height * 0.12)
+          x: nodePosition.x + ((destinationPoint.x - nodePosition.x) * (isHeavyRoute ? 0.72 : 0.48)),
+          y: isHeavyRoute
+            ? nodePosition.y + ((destinationPoint.y - nodePosition.y) * 0.18)
+            : Math.min(nodePosition.y, destinationPoint.y) - (height * 0.12)
         };
 
         return sampleQuadratic(origin, controlOne, nodePosition, 46)
