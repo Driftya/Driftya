@@ -206,16 +206,27 @@
       }
 
       .topbar {
-        grid-template-columns: 1fr;
-        justify-items: stretch;
+        position: static;
+        display: block;
+        padding: 0;
       }
 
       .caption-panel {
-        width: 100%;
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        right: 1rem;
+        width: auto;
+        margin: 0;
+        z-index: 2;
       }
 
       .brand-overlay {
-        justify-self: end;
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        top: auto;
+        z-index: 2;
       }
 
       .origin-badge {
