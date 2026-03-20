@@ -359,6 +359,8 @@
       let pixelRatio = 1;
       let origin = { x: 0, y: 0 };
       let iconImages = new Map();
+      let tintCanvas = null;
+      let tintContext = null;
       let animationStarted = false;
 
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -371,6 +373,10 @@
         canvas.width = Math.round(width * pixelRatio);
         canvas.height = Math.round(height * pixelRatio);
         context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        if (!tintCanvas) {
+          tintCanvas = document.createElement("canvas");
+          tintContext = tintCanvas.getContext("2d");
+        }
         origin = {
           x: width * 0.5,
           y: height * 0.88
@@ -524,11 +530,22 @@
         context.stroke();
 
         const iconImage = iconImages.get(node.id);
-        if (iconImage && iconImage.complete) {
+        if (iconImage && iconImage.complete && tintCanvas && tintContext) {
           const size = radius * 1.04;
+          const tintSize = Math.max(1, Math.ceil(size * pixelRatio));
+          tintCanvas.width = tintSize;
+          tintCanvas.height = tintSize;
+          tintContext.setTransform(1, 0, 0, 1, 0, 0);
+          tintContext.clearRect(0, 0, tintSize, tintSize);
+          tintContext.drawImage(iconImage, 0, 0, tintSize, tintSize);
+          tintContext.globalCompositeOperation = "source-in";
+          tintContext.fillStyle = "#f5f7ff";
+          tintContext.fillRect(0, 0, tintSize, tintSize);
+          tintContext.globalCompositeOperation = "source-over";
+
           context.save();
           context.globalAlpha = selected ? 1 : 0.88;
-          context.drawImage(iconImage, position.x - (size / 2), position.y - (size / 2), size, size);
+          context.drawImage(tintCanvas, position.x - (size / 2), position.y - (size / 2), size, size);
           context.restore();
         }
 
