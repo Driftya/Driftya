@@ -11,8 +11,10 @@
       --driftya-muted: rgba(220, 228, 255, 0.72);
       --stage-gradient: radial-gradient(140% 120% at 15% 10%, rgba(255, 255, 255, 0.2), rgba(88, 122, 255, 0.25), rgba(6, 10, 34, 0.95));
       --glass-border: rgba(255, 255, 255, 0.12);
-      --shadow: rgba(3, 6, 19, 0.48);
       --caption-max: 36rem;
+      --safe-inset-x: clamp(1rem, 4vw, 2.5rem);
+      --safe-inset-top: clamp(1rem, 4vh, 2.5rem);
+      --safe-inset-bottom: clamp(1.5rem, 6vh, 3.5rem);
     }
 
     * {
@@ -37,23 +39,19 @@
 
     .layout {
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: clamp(1rem, 2.6vw, 2rem);
     }
 
     .stage {
       position: relative;
-      width: min(96vw, 1120px);
-      height: min(90vh, 760px);
-      border-radius: 1.4rem;
+      width: 100vw;
+      height: 100vh;
+      min-height: 100dvh;
       overflow: hidden;
       isolation: isolate;
       background:
         radial-gradient(40% 30% at 22% 18%, rgba(94, 230, 255, 0.06), transparent 72%),
         radial-gradient(44% 34% at 78% 24%, rgba(94, 230, 255, 0.04), transparent 74%),
         linear-gradient(180deg, rgba(10, 14, 34, 0.78), rgba(6, 10, 27, 0.92));
-      box-shadow: 0 1.1rem 2.8rem var(--shadow);
     }
 
     .stage::before {
@@ -79,11 +77,14 @@
       z-index: 1;
     }
 
-    .topbar {
+    .safe-area {
       position: absolute;
-      inset: 0 0 auto 0;
+      inset:
+        calc(var(--safe-inset-top) + env(safe-area-inset-top))
+        calc(var(--safe-inset-x) + env(safe-area-inset-right))
+        calc(var(--safe-inset-bottom) + env(safe-area-inset-bottom))
+        calc(var(--safe-inset-x) + env(safe-area-inset-left));
       z-index: 2;
-      padding: clamp(1rem, 2.4vw, 1.5rem);
       display: grid;
       grid-template-columns: 1fr auto 1fr;
       align-items: start;
@@ -91,7 +92,7 @@
       pointer-events: none;
     }
 
-    .topbar-spacer {
+    .safe-area-spacer {
       min-height: 1px;
     }
 
@@ -201,32 +202,28 @@
     }
 
     @media (max-width: 760px) {
-      .stage {
-        height: min(92vh, 760px);
+      :root {
+        --safe-inset-x: 1rem;
+        --safe-inset-top: 1rem;
+        --safe-inset-bottom: 1.25rem;
       }
 
-      .topbar {
-        position: static;
-        display: block;
-        padding: 0;
+      .safe-area {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        align-content: start;
+      }
+
+      .safe-area-spacer {
+        display: none;
       }
 
       .caption-panel {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        right: 1rem;
-        width: auto;
-        margin: 0;
-        z-index: 2;
+        width: min(100%, 34rem);
       }
 
       .brand-overlay {
-        position: absolute;
-        right: 1rem;
-        bottom: 1rem;
-        top: auto;
-        z-index: 2;
+        justify-self: center;
       }
 
       .origin-badge {
@@ -244,8 +241,8 @@
     <section class="stage" aria-label="Mood navigation constellation demo">
       <canvas class="scene" id="scene" aria-hidden="true"></canvas>
 
-      <div class="topbar" aria-hidden="true">
-        <div class="topbar-spacer"></div>
+      <div class="safe-area" aria-hidden="true">
+        <div class="safe-area-spacer"></div>
 
         <div class="caption-panel">
           <p class="caption-line is-primary" id="captionPrimary">Choose a mood.</p>
