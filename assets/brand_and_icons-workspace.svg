@@ -140,6 +140,7 @@
       <bx:file format="svg" href="#object-21" path="Namnlös 17.svg"/>
       <bx:file format="svg" href="#object-22" path="Balloon.svg"/>
       <bx:file format="svg" href="#object-23" path="floating-island.svg"/>
+      <bx:file format="png" href="#object-24" path="SquareIconMono.png"/>
     </bx:export>
     <linearGradient id="color-0" gradientUnits="userSpaceOnUse" bx:pinned="true">
       <title>accent-1</title>
@@ -363,7 +364,7 @@
       </g>
     </g>
   </g>
-  <g transform="matrix(1, 0, 0, 1, 636.384399, 664.803894)" style="pointer-events: none;">
+  <g transform="matrix(1, 0, 0, 1, 636.384399, 664.803894)" style="pointer-events: none;" id="object-24">
     <title>SquareIconMono</title>
     <rect width="512" height="512" rx="128" style="stroke-width: 1; fill: url(&quot;#color-3&quot;);" x="-14.562" y="-91.616"/>
     <g style="filter: url(&quot;#filter-5&quot;);" transform="matrix(1.866971, 0, 0, 1.866971, -217.836502, -313.561005)">
